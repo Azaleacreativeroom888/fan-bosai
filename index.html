@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>そなえパレット | 毎日をちょっと安心にする、防災の話</title>
+<meta name="description" content="むずかしく考えない防災サイト「そなえパレット」。ちいさな備えを、淡いみどりとあおの毎日に。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAFDF8;
+    --green-pale: #E1F4E8;
+    --green-mid: #AEDCC4;
+    --green-deep: #3E7D5E;
+    --blue-pale: #E0F0FB;
+    --blue-mid: #A9D3EA;
+    --blue-deep: #3C6E96;
+    --ink: #33403A;
+    --ink-soft: #5E6D66;
+    --sun: #FFE39E;
+    --coral: #FFC9AE;
+    --white: #FFFFFF;
+    --shadow: 0 10px 30px rgba(62, 125, 94, 0.10);
+    --radius-lg: 32px;
+    --radius-md: 22px;
+    --radius-sm: 14px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+    line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .brand{
+    font-family: "Zen Maru Gothic", "Zen Kaku Gothic New", sans-serif;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  a{ color: inherit; }
+  img{ max-width: 100%; display: block; }
+
+  .wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* --- background blobs (signature texture) --- */
+  .blob-field{
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(0px);
+    opacity: 0.55;
+  }
+
+  /* --- header --- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 253, 248, 0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(62, 125, 94, 0.08);
+  }
+  .nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .brand{
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.01em;
+  }
+  .brand .dot{
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--green-mid), var(--blue-mid));
+    display: inline-block;
+  }
+  nav ul{
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+  }
+  nav ul li a{
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    padding: 9px 16px;
+    border-radius: 999px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  nav ul li a:hover,
+  nav ul li a:focus-visible{
+    background: var(--green-pale);
+    color: var(--green-deep);
+  }
+  nav ul li a.current{
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  /* --- hero --- */
+  .hero{
+    position: relative;
+    padding: 72px 24px 40px;
+  }
+  .hero-inner{
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    border: 1px solid var(--green-mid);
+    color: var(--green-deep);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+  .hero h1{
+    font-size: clamp(2.1rem, 4.2vw, 3.1rem);
+    line-height: 1.5;
+  }
+  .hero h1 .accent{
+    background: linear-gradient(180deg, transparent 62%, var(--sun) 62%);
+  }
+  .hero p{
+    margin-top: 20px;
+    color: var(--ink-soft);
+    font-size: 1.02rem;
+    max-width: 46ch;
+  }
+  .hero-ctas{
+    margin-top: 32px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    padding: 14px 26px;
+    border-radius: 999px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .btn-primary{
+    background: var(--ink);
+    color: var(--white);
+    box-shadow: var(--shadow);
+  }
+  .btn-primary:hover, .btn-primary:focus-visible{
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(62, 125, 94, 0.18);
+  }
+  .btn-ghost{
+    background: var(--white);
+    color: var(--ink);
+    border: 1px solid rgba(62,125,94,0.25);
+  }
+  .btn-ghost:hover, .btn-ghost:focus-visible{
+    background: var(--blue-pale);
+    transform: translateY(-2px);
+  }
+
+  .hero-art{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float{
+    0%, 100%{ transform: translateY(0px); }
+    50%{ transform: translateY(-10px); }
+  }
+
+  /* --- section shell --- */
+  section{
+    position: relative;
+    padding: 64px 24px;
+  }
+  .section-head{
+    max-width: 640px;
+    margin: 0 auto 40px;
+    text-align: center;
+  }
+  .section-head .eyebrow{ margin-bottom: 16px; }
+  .section-head h2{
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    line-height: 1.55;
+  }
+  .section-head p{
+    margin-top: 14px;
+    color: var(--ink-soft);
+  }
+
+  /* --- intro / why section --- */
+  .intro{
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 24px;
+    box-shadow: var(--shadow);
+  }
+  .intro-grid{
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 44px;
+    align-items: center;
+  }
+  .intro-icon-cluster{
+    display: flex;
+    justify-content: center;
+  }
+  .intro-copy p{
+    color: var(--ink-soft);
+    margin-top: 14px;
+  }
+  .intro-copy p + p{ margin-top: 12px; }
+
+  /* --- category cards --- */
+  .cards{
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .card{
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 28px 22px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 18px 34px rgba(62,125,94,0.16);
+  }
+  .card .icon-badge{
+    width: 56px; height: 56px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  .card h3{
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+  .card p{
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin: 0;
+  }
+  .card.c1 .icon-badge{ background: var(--green-pale); }
+  .card.c2 .icon-badge{ background: var(--blue-pale); }
+  .card.c3 .icon-badge{ background: var(--coral); opacity: 1; }
+  .card.c3 .icon-badge{ background: #FFE7DA; }
+  .card.c4 .icon-badge{ background: var(--sun); opacity: 0.65; }
+
+  /* --- steps --- */
+  .steps-wrap{
+    background: linear-gradient(135deg, var(--blue-pale), var(--green-pale));
+    border-radius: var(--radius-lg);
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 32px;
+  }
+  .steps{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    counter-reset: step;
+  }
+  .step{
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 26px 22px;
+    position: relative;
+  }
+  .step .step-num{
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-weight: 900;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--green-deep);
+    background: var(--green-pale);
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .step h3{
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+  .step p{
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  /* --- reading teaser (blog / column) --- */
+  .reads{
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .read-card{
+    border-radius: var(--radius-lg);
+    padding: 36px 30px;
+    position: relative;
+    overflow: hidden;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .read-card.blog{
+    background: linear-gradient(160deg, var(--green-pale) 0%, var(--white) 70%);
+    border: 1px solid rgba(62,125,94,0.14);
+  }
+  .read-card.column{
+    background: linear-gradient(160deg, var(--blue-pale) 0%, var(--white) 70%);
+    border: 1px solid rgba(60,110,150,0.14);
+  }
+  .read-card .tag{
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+    letter-spacing: 0.04em;
+  }
+  .read-card h3{
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .read-card p{
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin: 0 0 4px;
+  }
+  .read-card .go{
+    margin-top: 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s ease;
+  }
+  .read-card:hover .go{ gap: 10px; }
+  .read-card .decor{
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  .read-card.blog .decor{ background: var(--green-mid); }
+  .read-card.column .decor{ background: var(--blue-mid); }
+
+  /* --- footer --- */
+  footer{
+    background: var(--ink);
+    color: #E7EFE9;
+    padding: 52px 24px 30px;
+    margin-top: 40px;
+  }
+  .footer-inner{
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  footer .brand{ color: var(--white); margin-bottom: 10px; }
+  footer .tagline{
+    color: #B9C7BE;
+    font-size: 0.88rem;
+    max-width: 32ch;
+  }
+  footer nav ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  footer nav ul li a{
+    text-decoration: none;
+    color: #CFE0D5;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+  footer nav ul li a:hover{ color: var(--sun); }
+  .footer-bottom{
+    max-width: 1080px;
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    font-size: 0.78rem;
+    color: #8FA398;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline: 3px solid var(--blue-deep);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 860px){
+    .nav ul{ display: none; }
+    .hero-inner{ grid-template-columns: 1fr; }
+    .hero-art{ order: -1; }
+    .intro-grid{ grid-template-columns: 1fr; }
+    .cards{ grid-template-columns: repeat(2, 1fr); }
+    .steps{ grid-template-columns: 1fr; }
+    .reads{ grid-template-columns: 1fr; }
+    .footer-inner{ flex-direction: column; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .hero-art{ animation: none; }
+    .card, .btn, .read-card .go{ transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" style="text-decoration:none;">
+      <span class="brand"><span class="dot"></span>そなえパレット</span>
+    </a>
+    <nav aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="index.html" class="current">ホーム</a></li>
+        <li><a href="blog.html">ブログ</a></li>
+        <li><a href="column.html">コラム</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="blob-field" aria-hidden="true">
+      <div class="blob" style="width:340px;height:340px;background:var(--green-pale);top:-120px;left:-100px;"></div>
+      <div class="blob" style="width:260px;height:260px;background:var(--blue-pale);top:60px;right:-80px;"></div>
+    </div>
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">🌿 むずかしく考えない防災</span>
+        <h1>そなえは、<br>くらしの<span class="accent">色</span>になる。</h1>
+        <p>身構えなくていい。ちいさな準備を、いつもの毎日に少しずつ混ぜていく。そなえパレットは、そんな気持ちで作った防災のノートです。</p>
+        <div class="hero-ctas">
+          <a href="#steps" class="btn btn-primary">今日からできることを見る</a>
+          <a href="#about-mini" class="btn btn-ghost">そなえパレットって？</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 420 420" width="100%" style="max-width:400px;" role="img" aria-label="そなえの道具が入ったリュックのイラスト">
+          <circle cx="330" cy="70" r="34" fill="var(--sun)" opacity="0.8"/>
+          <circle cx="60" cy="330" r="22" fill="var(--blue-mid)" opacity="0.6"/>
+          <ellipse cx="210" cy="372" rx="140" ry="18" fill="var(--green-pale)"/>
+
+          <!-- backpack body -->
+          <rect x="120" y="150" width="180" height="200" rx="46" fill="var(--green-mid)"/>
+          <rect x="120" y="150" width="180" height="200" rx="46" fill="var(--green-pale)" opacity="0.35"/>
+          <rect x="150" y="120" width="120" height="70" rx="30" fill="var(--green-deep)" opacity="0.9"/>
+          <rect x="168" y="190" width="84" height="86" rx="22" fill="var(--white)" opacity="0.9"/>
+
+          <!-- straps -->
+          <path d="M150 150 Q140 210 160 260" stroke="var(--green-deep)" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <path d="M270 150 Q280 210 260 260" stroke="var(--green-deep)" stroke-width="14" fill="none" stroke-linecap="round"/>
+
+          <!-- water bottle -->
+          <rect x="192" y="80" width="34" height="66" rx="12" fill="var(--blue-deep)"/>
+          <rect x="200" y="66" width="18" height="18" rx="5" fill="var(--blue-deep)"/>
+
+          <!-- flashlight -->
+          <rect x="252" y="205" width="52" height="20" rx="10" fill="var(--sun)"/>
+          <circle cx="300" cy="215" r="12" fill="#FFCE63"/>
+
+          <!-- little heart / first aid -->
+          <rect x="176" y="215" width="40" height="40" rx="10" fill="var(--coral)"/>
+          <rect x="192" y="223" width="8" height="24" rx="3" fill="var(--white)"/>
+          <rect x="184" y="231" width="24" height="8" rx="3" fill="var(--white)"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY SECTION -->
+  <section aria-labelledby="why-heading">
+    <div class="wrap">
+      <div class="intro">
+        <div class="intro-grid">
+          <div class="intro-icon-cluster" aria-hidden="true">
+            <svg width="220" height="220" viewBox="0 0 220 220">
+              <circle cx="110" cy="110" r="100" fill="var(--blue-pale)"/>
+              <circle cx="80" cy="90" r="34" fill="var(--white)"/>
+              <circle cx="80" cy="90" r="34" fill="none" stroke="var(--blue-deep)" stroke-width="6"/>
+              <path d="M104 114 L128 138" stroke="var(--blue-deep)" stroke-width="8" stroke-linecap="round"/>
+              <circle cx="150" cy="150" r="20" fill="var(--sun)"/>
+              <circle cx="150" cy="60" r="12" fill="var(--coral)"/>
+            </svg>
+          </div>
+          <div class="intro-copy">
+            <span class="eyebrow">そなえるって、なに？</span>
+            <h2 id="why-heading">特別なことじゃなくて、<br>いつもの延長。</h2>
+            <p>雨が降りそうな日に折りたたみ傘をかばんに入れるように、そなえも「もしも」のための、ちょっとした準備です。</p>
+            <p>そなえパレットでは、身構えず・こわがらず、暮らしの中で自然にできる工夫を、淡いみどりとあおの気分でお届けします。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY CARDS -->
+  <section aria-labelledby="cards-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">4つの、はじめ方</span>
+        <h2 id="cards-heading">どこからそなえる？</h2>
+        <p>気になるところから、ひとつだけ選んでみてください。</p>
+      </div>
+      <div class="cards">
+        <div class="card c1">
+          <div class="icon-badge" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 28 28"><rect x="6" y="9" width="16" height="15" rx="5" fill="var(--green-deep)"/><rect x="10" y="4" width="8" height="6" rx="3" fill="var(--green-deep)"/></svg>
+          </div>
+          <h3>持ち出しバッグ</h3>
+          <p>いざというとき、すぐ持って出られる荷物をまとめておく。</p>
+        </div>
+        <div class="card c2">
+          <div class="icon-badge" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 28 28"><rect x="5" y="12" width="18" height="12" rx="3" fill="var(--blue-deep)"/><path d="M4 13 L14 4 L24 13" stroke="var(--blue-deep)" stroke-width="4" fill="none" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>おうちのストック</h3>
+          <p>お水や食べもの、日用品を少しだけ多めに置いておく。</p>
+        </div>
+        <div class="card c3">
+          <div class="icon-badge" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="10" cy="10" r="5" fill="#E88A63"/><circle cx="19" cy="10" r="5" fill="#E88A63" opacity="0.7"/><path d="M4 24c0-6 5-9 10-9s10 3 10 9" fill="#E88A63" opacity="0.5"/></svg>
+          </div>
+          <h3>家族のおしゃべり</h3>
+          <p>はぐれたときの待ち合わせ場所や連絡方法を話しておく。</p>
+        </div>
+        <div class="card c4">
+          <div class="icon-badge" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 28 28"><path d="M14 3c5 5 9 9 9 14a9 9 0 1 1-18 0c0-5 4-9 9-14z" fill="#E0A93B"/></svg>
+          </div>
+          <h3>まちを知る</h3>
+          <p>近くの避難場所や通学路を、お散歩がてらチェックしてみる。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section id="steps" aria-labelledby="steps-heading">
+    <div class="wrap">
+      <div class="steps-wrap">
+        <div class="section-head" style="margin-bottom:32px;">
+          <span class="eyebrow">今日からの、3ステップ</span>
+          <h2 id="steps-heading">まずは、ここから。</h2>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <span class="step-num">STEP 1</span>
+            <h3>お水を1本、置いてみる</h3>
+            <p>いつもの場所に、ペットボトルを1本追加するだけ。</p>
+          </div>
+          <div class="step">
+            <span class="step-num">STEP 2</span>
+            <h3>「どこで会う？」を聞いてみる</h3>
+            <p>もしはぐれたら、を軽く家族と話してみる。</p>
+          </div>
+          <div class="step">
+            <span class="step-num">STEP 3</span>
+            <h3>避難場所をスマホに保存</h3>
+            <p>近所の避難場所を地図アプリでお気に入り登録。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- READING TEASER -->
+  <section aria-labelledby="reads-heading" id="about-mini">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">読みもの</span>
+        <h2 id="reads-heading">ブログとコラム</h2>
+        <p>そなえの記録と、ちょっと肩の力を抜いた読みものを置いています。</p>
+      </div>
+      <div class="reads">
+        <a href="blog.html" class="read-card blog">
+          <div class="decor" aria-hidden="true"></div>
+          <span class="tag">BLOG</span>
+          <h3>そなえの記録</h3>
+          <p>日々そろえたもの、試したことをゆるく綴る日記です。</p>
+          <span class="go">読みにいく →</span>
+        </a>
+        <a href="column.html" class="read-card column">
+          <div class="decor" aria-hidden="true"></div>
+          <span class="tag">COLUMN</span>
+          <h3>ファンアート & コラム</h3>
+          <p>漫画のファンアートや、ふと思ったことをまとめて置く場所。</p>
+          <span class="go">読みにいく →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <span class="brand">そなえパレット</span>
+      <p class="tagline">むずかしく考えない防災サイト。淡いみどりとあおで、毎日をちょっと安心に。</p>
+    </div>
+    <nav aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li><a href="blog.html">ブログ</a></li>
+        <li><a href="column.html">コラム</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 そなえパレット</span>
+    <span>このサイトの文章・イラストはAIの学習利用を禁止します。</span>
+  </div>
+</footer>
+
+</body>
+</html>
