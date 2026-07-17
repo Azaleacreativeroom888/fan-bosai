@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>コラム | そなえパレット</title>
+<meta name="description" content="そなえパレットのコラム。漫画のファンアートや、ふと思ったことをまとめています。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAFDF8;
+    --green-pale: #E1F4E8;
+    --green-mid: #AEDCC4;
+    --green-deep: #3E7D5E;
+    --blue-pale: #E0F0FB;
+    --blue-mid: #A9D3EA;
+    --blue-deep: #3C6E96;
+    --ink: #33403A;
+    --ink-soft: #5E6D66;
+    --sun: #FFE39E;
+    --coral: #FFC9AE;
+    --white: #FFFFFF;
+    --shadow: 0 10px 30px rgba(62, 125, 94, 0.10);
+    --radius-lg: 32px;
+    --radius-md: 22px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+    line-height: 1.85;
+  }
+
+  h1, h2, h3, .brand{
+    font-family: "Zen Maru Gothic", "Zen Kaku Gothic New", sans-serif;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  a{ color: inherit; }
+
+  .wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* --- header (shared) --- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 253, 248, 0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(62, 125, 94, 0.08);
+  }
+  .nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .brand{
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand .dot{
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--green-mid), var(--blue-mid));
+    display: inline-block;
+  }
+  nav ul{
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+  }
+  nav ul li a{
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    padding: 9px 16px;
+    border-radius: 999px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  nav ul li a:hover, nav ul li a:focus-visible{
+    background: var(--green-pale);
+    color: var(--green-deep);
+  }
+  nav ul li a.current{
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  /* --- page head --- */
+  .page-head{
+    padding: 64px 24px 20px;
+    text-align: center;
+  }
+  .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    border: 1px solid var(--green-mid);
+    color: var(--green-deep);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .page-head h1{
+    font-size: clamp(1.9rem, 3.6vw, 2.4rem);
+  }
+  .page-head p{
+    margin-top: 14px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* --- section jump nav (for future sections) --- */
+  .section-nav{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px 24px 40px;
+    flex-wrap: wrap;
+  }
+  .section-nav a{
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: var(--white);
+    border: 1px solid rgba(62,125,94,0.16);
+    padding: 8px 18px;
+    border-radius: 999px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .section-nav a:hover, .section-nav a:focus-visible{
+    background: var(--green-pale);
+    color: var(--green-deep);
+  }
+
+  /* --- content section shell --- */
+  .content-section{
+    padding: 20px 24px 80px;
+  }
+  .content-section .section-title{
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--green-pale);
+  }
+  .content-section .section-title h2{
+    font-size: 1.4rem;
+  }
+  .content-section .section-title span.count{
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-weight: 500;
+  }
+
+  /* --- column entry cards --- */
+  .column-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+  .col-card{
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 26px 26px 24px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .col-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 18px 34px rgba(62,125,94,0.16);
+  }
+  .col-card .meta{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .col-card .badge{
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .col-card.tag-fanart .badge{ background: var(--coral); color: #7A3B22; }
+  .col-card.tag-thoughts .badge{ background: var(--blue-pale); color: var(--blue-deep); }
+  .col-card.tag-craft .badge{ background: var(--green-pale); color: var(--green-deep); }
+  .col-card time{
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+  .col-card h3{
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .col-card p{
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  /* --- placeholder note for future sections --- */
+  .future-note{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+  .future-note .box{
+    border: 1.5px dashed rgba(62,125,94,0.3);
+    border-radius: var(--radius-md);
+    padding: 22px 26px;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    text-align: center;
+  }
+
+  /* --- footer (shared) --- */
+  footer{
+    background: var(--ink);
+    color: #E7EFE9;
+    padding: 52px 24px 30px;
+  }
+  .footer-inner{
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  footer .brand{ color: var(--white); margin-bottom: 10px; }
+  footer .tagline{
+    color: #B9C7BE;
+    font-size: 0.88rem;
+    max-width: 32ch;
+  }
+  footer nav ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  footer nav ul li a{
+    text-decoration: none;
+    color: #CFE0D5;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+  footer nav ul li a:hover{ color: var(--sun); }
+  .footer-bottom{
+    max-width: 1080px;
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    font-size: 0.78rem;
+    color: #8FA398;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  a:focus-visible{
+    outline: 3px solid var(--blue-deep);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 860px){
+    .nav ul{ display: none; }
+    .column-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" style="text-decoration:none;">
+      <span class="brand"><span class="dot"></span>そなえパレット</span>
+    </a>
+    <nav aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li><a href="blog.html">ブログ</a></li>
+        <li><a href="column.html" class="current">コラム</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-head">
+    <span class="eyebrow">🖋️ COLUMN</span>
+    <h1>コラム</h1>
+    <p>漫画のファンアートや、ふと思ったことをまとめて置く場所です。今後レポートやプロジェクトのセクションも増える予定。</p>
+  </div>
+
+  <!-- 将来セクションが増えたらここにリンクを追加してください（例：#report / #project） -->
+  <nav class="section-nav" aria-label="セクション内ナビゲーション">
+    <a href="#column-section">コラム</a>
+  </nav>
+
+  <!-- ============================= -->
+  <!-- SECTION: コラム -->
+  <!-- ============================= -->
+  <section id="column-section" class="content-section">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>コラム</h2>
+        <span class="count">4件</span>
+      </div>
+
+      <div class="column-grid">
+
+        <article class="col-card tag-thoughts">
+          <div class="meta">
+            <span class="badge">つぶやき</span>
+            <time datetime="2026-07-15">2026.07.15</time>
+          </div>
+          <h3>コマ割りって、実は「間」の設計だった</h3>
+          <p>最近読み返した作品のコマ運びが妙に心地よくて、間の取り方を分解してみたメモ。</p>
+        </article>
+
+        <article class="col-card tag-fanart">
+          <div class="meta">
+            <span class="badge">ファンアート</span>
+            <time datetime="2026-07-08">2026.07.08</time>
+          </div>
+          <h3>好きなキャラの背中を描いてみた</h3>
+          <p>正面よりも背中のほうが感情が出る気がして、練習がてら描いた一枚の制作メモ。</p>
+        </article>
+
+        <article class="col-card tag-craft">
+          <div class="meta">
+            <span class="badge">創作雑記</span>
+            <time datetime="2026-06-30">2026.06.30</time>
+          </div>
+          <h3>編集さんの指摘で気づいたこと</h3>
+          <p>もらったフィードバックを自分なりに噛み砕いて、次の作品づくりに活かすための整理。</p>
+        </article>
+
+        <article class="col-card tag-thoughts">
+          <div class="meta">
+            <span class="badge">つぶやき</span>
+            <time datetime="2026-06-20">2026.06.20</time>
+          </div>
+          <h3>翻訳の授業で感じた「間合い」の違い</h3>
+          <p>英語と日本語のニュアンスの取り方を比べていて、漫画のセリフ回しにも通じる話だと思った。</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="future-note">
+    <div class="box">近日、「レポート」「プロジェクト」のセクションもここに追加予定です。</div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <span class="brand">そなえパレット</span>
+      <p class="tagline">むずかしく考えない防災サイト。淡いみどりとあおで、毎日をちょっと安心に。</p>
+    </div>
+    <nav aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li><a href="blog.html">ブログ</a></li>
+        <li><a href="column.html">コラム</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 そなえパレット</span>
+    <span>このサイトの文章・イラストはAIの学習利用を禁止します。</span>
+  </div>
+</footer>
+
+</body>
+</html>
