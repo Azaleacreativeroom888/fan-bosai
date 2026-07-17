@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | そなえパレット</title>
+<meta name="description" content="そなえパレットについて、つくっている人について、お問い合わせフォーム。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAFDF8;
+    --green-pale: #E1F4E8;
+    --green-mid: #AEDCC4;
+    --green-deep: #3E7D5E;
+    --blue-pale: #E0F0FB;
+    --blue-mid: #A9D3EA;
+    --blue-deep: #3C6E96;
+    --ink: #33403A;
+    --ink-soft: #5E6D66;
+    --sun: #FFE39E;
+    --coral: #FFC9AE;
+    --coral-deep: #C06A45;
+    --white: #FFFFFF;
+    --error: #C06070;
+    --shadow: 0 10px 30px rgba(62, 125, 94, 0.10);
+    --radius-lg: 32px;
+    --radius-md: 22px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+    line-height: 1.85;
+  }
+
+  h1, h2, h3, .brand{
+    font-family: "Zen Maru Gothic", "Zen Kaku Gothic New", sans-serif;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  a{ color: inherit; }
+
+  .wrap{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* --- header (shared) --- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 253, 248, 0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(62, 125, 94, 0.08);
+  }
+  .nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .brand{
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand .dot{
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--green-mid), var(--blue-mid));
+    display: inline-block;
+  }
+  nav ul{
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+  }
+  nav ul li a{
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    padding: 9px 16px;
+    border-radius: 999px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  nav ul li a:hover, nav ul li a:focus-visible{
+    background: var(--green-pale);
+    color: var(--green-deep);
+  }
+  nav ul li a.current{
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  /* --- page head --- */
+  .page-head{
+    padding: 64px 24px 20px;
+    text-align: center;
+  }
+  .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    border: 1px solid var(--green-mid);
+    color: var(--green-deep);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .page-head h1{
+    font-size: clamp(1.9rem, 3.6vw, 2.4rem);
+  }
+  .page-head p{
+    margin-top: 14px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* --- content --- */
+  main{ padding-bottom: 20px; }
+
+  .block{
+    padding: 36px 24px;
+  }
+
+  .section-label{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--green-deep);
+  }
+  .section-label::after{
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--green-pale);
+  }
+
+  .prose p{
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+  }
+  .prose p:last-child{ margin-bottom: 0; }
+
+  /* --- profile card --- */
+  .profile-card{
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 36px 32px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 26px;
+    align-items: center;
+  }
+  .profile-avatar{
+    width: 84px; height: 84px;
+    border-radius: 26px;
+    background: linear-gradient(135deg, var(--green-pale), var(--blue-pale));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .profile-card h3{ font-size: 1.1rem; margin-bottom: 8px; }
+  .profile-card p{ color: var(--ink-soft); font-size: 0.94rem; margin: 0; }
+
+  /* --- link grid --- */
+  .link-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .link-card{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .link-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(62,125,94,0.16);
+  }
+  .link-icon{
+    width: 44px; height: 44px;
+    border-radius: 14px;
+    background: var(--green-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .link-card:nth-child(even) .link-icon{ background: var(--blue-pale); }
+  .link-text{ flex: 1; min-width: 0; }
+  .link-name{
+    display: block;
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+  }
+  .link-desc{
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .link-arrow{
+    color: var(--green-mid);
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+  }
+  .link-card:hover .link-arrow{ transform: translateX(3px); }
+
+  /* --- form --- */
+  .form-card{
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 36px 32px;
+  }
+  .form-intro{ color: var(--ink-soft); margin-bottom: 24px; font-size: 0.94rem; }
+  .form-group{ margin-bottom: 20px; }
+  .form-label{
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .required{ color: var(--coral-deep); font-style: normal; }
+  .form-input, .form-textarea{
+    width: 100%;
+    background: var(--bg);
+    border: 1.5px solid var(--green-pale);
+    border-radius: var(--radius-sm, 14px);
+    color: var(--ink);
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-size: 0.95rem;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .form-input::placeholder, .form-textarea::placeholder{ color: #A9B6AE; }
+  .form-input:focus, .form-textarea:focus{
+    border-color: var(--blue-mid);
+    box-shadow: 0 0 0 4px rgba(169, 211, 234, 0.25);
+  }
+  .form-textarea{ resize: vertical; min-height: 130px; }
+  .field-error{
+    display: block;
+    font-size: 0.78rem;
+    color: var(--error);
+    margin-top: 6px;
+  }
+  .form-submit{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    border: none;
+    border-radius: 999px;
+    color: var(--white);
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 13px 28px;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .form-submit:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px rgba(62,125,94,0.2);
+  }
+  .form-submit:disabled{ opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .form-success{
+    background: var(--green-pale);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    text-align: center;
+    color: var(--green-deep);
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .form-success-icon{ display: block; font-size: 1.3rem; margin-bottom: 6px; }
+  .form-error-global{
+    background: #FBE7E4;
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    color: var(--error);
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+  }
+
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    margin: 8px 24px 0;
+    padding: 9px 18px;
+    border: 1px solid rgba(62,125,94,0.2);
+    border-radius: 999px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .back-link:hover{ background: var(--green-pale); color: var(--green-deep); }
+
+  /* --- footer (shared) --- */
+  footer{
+    background: var(--ink);
+    color: #E7EFE9;
+    padding: 52px 24px 30px;
+    margin-top: 40px;
+  }
+  .footer-inner{
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  footer .brand{ color: var(--white); margin-bottom: 10px; }
+  footer .tagline{ color: #B9C7BE; font-size: 0.88rem; max-width: 32ch; }
+  footer nav ul{
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  footer nav ul li a{ text-decoration: none; color: #CFE0D5; font-size: 0.9rem; transition: color 0.2s ease; }
+  footer nav ul li a:hover{ color: var(--sun); }
+  .footer-bottom{
+    max-width: 1080px;
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    font-size: 0.76rem;
+    color: #8FA398;
+    text-align: center;
+    line-height: 1.9;
+  }
+  .footer-bottom p{ margin: 0 0 4px; }
+
+  a:focus-visible, button:focus-visible{
+    outline: 3px solid var(--blue-deep);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 860px){
+    .nav ul{ display: none; }
+    .profile-card{ grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .link-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" style="text-decoration:none;">
+      <span class="brand"><span class="dot"></span>そなえパレット</span>
+    </a>
+    <nav aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li><a href="blog.html">ブログ</a></li>
+        <li><a href="column.html">コラム</a></li>
+        <li><a href="about.html" class="current">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-head">
+    <span class="eyebrow">🌿 ABOUT</span>
+    <h1>そなえパレットについて</h1>
+    <p>このサイトの成り立ちと、つくっている人のことを、少しだけご紹介します。</p>
+  </div>
+
+  <!-- ============================= -->
+  <!-- サイトについて -->
+  <!-- ============================= -->
+  <section class="block">
+    <div class="wrap">
+      <p class="section-label">サイトについて</p>
+      <div class="prose">
+        <p>そなえパレットは、「そなえ」をこわがらずに、いつもの暮らしの延長として考えるための小さなサイトです。特別な知識も、身構えた気持ちもいりません。淡いみどりとあおの中で、できることから少しずつ。</p>
+        <p>「ブログ」では日々のそなえの記録を、「コラム」では漫画のファンアートやちょっとした読みものを綴っています。よかったら遊びにきてください。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= -->
+  <!-- つくっている人 -->
+  <!-- ============================= -->
+  <section class="block">
+    <div class="wrap">
+      <p class="section-label">つくっている人</p>
+
+      <div class="profile-card">
+        <div class="profile-avatar" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="15" r="9" fill="var(--green-deep)"/><path d="M6 36c0-9 6-14 14-14s14 5 14 14" fill="var(--blue-mid)"/></svg>
+        </div>
+        <div>
+          <h3>Azalea72（アザレアななじゅうに）</h3>
+          <p>漫画とイラストを中心に創作をしています。ふだんは「Azalea Creative Room」という創作の拠点で、漫画や翻訳、いろいろなテーマのサイトづくりをしています。そなえパレットは、そこから生まれた小さなプロジェクトです。</p>
+        </div>
+      </div>
+
+      <div class="link-grid">
+        <a class="link-card" href="https://azaleacreativeroom888.github.io/" target="_blank" rel="noopener">
+          <span class="link-icon" aria-hidden="true">🏡</span>
+          <span class="link-text">
+            <span class="link-name">Azalea Creative Room</span>
+            <span class="link-desc">創作の拠点サイト</span>
+          </span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="https://bsky.app/profile/azaleaazalea88.bsky.social" target="_blank" rel="noopener">
+          <span class="link-icon" aria-hidden="true">🦋</span>
+          <span class="link-text">
+            <span class="link-name">Bluesky</span>
+            <span class="link-desc">近況・作品のお知らせ</span>
+          </span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="https://www.pixiv.net/users/105728284" target="_blank" rel="noopener">
+          <span class="link-icon" aria-hidden="true">🎨</span>
+          <span class="link-text">
+            <span class="link-name">Pixiv</span>
+            <span class="link-desc">イラスト・漫画を掲載</span>
+          </span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="https://rookie.shonenjump.com/users/14728546961183734555" target="_blank" rel="noopener">
+          <span class="link-icon" aria-hidden="true">📚</span>
+          <span class="link-text">
+            <span class="link-name">ジャンプルーキー</span>
+            <span class="link-desc">オリジナル漫画を掲載中</span>
+          </span>
+          <span class="link-arrow">›</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= -->
+  <!-- お問い合わせ -->
+  <!-- ============================= -->
+  <section class="block">
+    <div class="wrap">
+      <p class="section-label">お問い合わせ</p>
+
+      <div class="form-card">
+        <p class="form-intro">ご感想やご質問など、お気軽にどうぞ。Gmailで受け取り、返信いたします。</p>
+
+        <div data-fs-success class="form-success" style="display:none;">
+          <span class="form-success-icon">🌱</span>
+          メッセージを送信しました。ありがとうございます！
+        </div>
+
+        <div data-fs-error class="form-error-global" style="display:none;"></div>
+
+        <form id="contact-form" action="https://formspree.io/f/maqvpvoz" method="POST">
+          <div class="form-group">
+            <label class="form-label" for="name">お名前</label>
+            <input class="form-input" type="text" id="name" name="name" placeholder="そなえ 太郎" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">メールアドレス <span class="required">*</span></label>
+            <input class="form-input" type="email" id="email" name="email" data-fs-field placeholder="example@email.com" required>
+            <span data-fs-error="email" class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">メッセージ <span class="required">*</span></label>
+            <textarea class="form-textarea" id="message" name="message" data-fs-field placeholder="メッセージを入力してください…" rows="6" required></textarea>
+            <span data-fs-error="message" class="field-error"></span>
+          </div>
+
+          <button class="form-submit" type="submit" data-fs-submit-btn>
+            送信する 📮
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <a class="back-link" href="index.html">← トップページに戻る</a>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <span class="brand">そなえパレット</span>
+      <p class="tagline">むずかしく考えない防災サイト。淡いみどりとあおで、毎日をちょっと安心に。</p>
+    </div>
+    <nav aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li><a href="blog.html">ブログ</a></li>
+        <li><a href="column.html">コラム</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 そなえパレット ／ このサイトの文章・イラストはAIの学習利用、無断転載・二次利用を禁止します。</p>
+    <p>Please refrain from using any images or text on this website for AI training, unauthorized reproduction, or secondary use.</p>
+  </div>
+</footer>
+
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#contact-form', formId: 'maqvpvoz' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+</body>
+</html>
