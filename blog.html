@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ブログ | そなえパレット</title>
+<meta name="description" content="そなえパレットのブログ。日々のそなえの記録を、日付とことばだけで綴っています。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAFDF8;
+    --green-pale: #E1F4E8;
+    --green-mid: #AEDCC4;
+    --green-deep: #3E7D5E;
+    --blue-pale: #E0F0FB;
+    --blue-mid: #A9D3EA;
+    --blue-deep: #3C6E96;
+    --ink: #33403A;
+    --ink-soft: #5E6D66;
+    --sun: #FFE39E;
+    --coral: #FFC9AE;
+    --white: #FFFFFF;
+    --shadow: 0 10px 30px rgba(62, 125, 94, 0.10);
+    --radius-lg: 32px;
+    --radius-md: 22px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+    line-height: 1.85;
+  }
+
+  h1, h2, .brand{
+    font-family: "Zen Maru Gothic", "Zen Kaku Gothic New", sans-serif;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  a{ color: inherit; }
+
+  .wrap{
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* --- header (shared) --- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 253, 248, 0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(62, 125, 94, 0.08);
+  }
+  .nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .brand{
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand .dot{
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--green-mid), var(--blue-mid));
+    display: inline-block;
+  }
+  nav ul{
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+  }
+  nav ul li a{
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    padding: 9px 16px;
+    border-radius: 999px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  nav ul li a:hover, nav ul li a:focus-visible{
+    background: var(--green-pale);
+    color: var(--green-deep);
+  }
+  nav ul li a.current{
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  /* --- page head --- */
+  .page-head{
+    padding: 64px 24px 20px;
+    text-align: center;
+  }
+  .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    border: 1px solid var(--green-mid);
+    color: var(--green-deep);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .page-head h1{
+    font-size: clamp(1.9rem, 3.6vw, 2.4rem);
+  }
+  .page-head p{
+    margin-top: 14px;
+    color: var(--ink-soft);
+  }
+
+  /* --- diary list --- */
+  .diary{
+    padding: 24px 24px 80px;
+  }
+  .diary-list{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .entry{
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 28px 30px;
+    box-shadow: var(--shadow);
+    margin-bottom: 22px;
+    border-left: 6px solid var(--green-mid);
+  }
+  .entry:nth-child(even){
+    border-left-color: var(--blue-mid);
+  }
+  .entry time{
+    display: inline-block;
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    color: var(--green-deep);
+    background: var(--green-pale);
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .entry:nth-child(even) time{
+    color: var(--blue-deep);
+    background: var(--blue-pale);
+  }
+  .entry p{
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.98rem;
+    white-space: pre-line;
+  }
+
+  /* --- footer (shared) --- */
+  footer{
+    background: var(--ink);
+    color: #E7EFE9;
+    padding: 52px 24px 30px;
+  }
+  .footer-inner{
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  footer .brand{ color: var(--white); margin-bottom: 10px; }
+  footer .tagline{
+    color: #B9C7BE;
+    font-size: 0.88rem;
+    max-width: 32ch;
+  }
+  footer nav ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  footer nav ul li a{
+    text-decoration: none;
+    color: #CFE0D5;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+  footer nav ul li a:hover{ color: var(--sun); }
+  .footer-bottom{
+    max-width: 1080px;
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    font-size: 0.78rem;
+    color: #8FA398;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  a:focus-visible{
+    outline: 3px solid var(--blue-deep);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 860px){
+    .nav ul{ display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" style="text-decoration:none;">
+      <span class="brand"><span class="dot"></span>そなえパレット</span>
+    </a>
+    <nav aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li><a href="blog.html" class="current">ブログ</a></li>
+        <li><a href="column.html">コラム</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-head">
+    <span class="eyebrow">📔 BLOG</span>
+    <h1>そなえの記録</h1>
+    <p>日付とことばだけの、ゆるい日記です。</p>
+  </div>
+
+  <div class="diary wrap">
+    <div class="diary-list">
+
+      <article class="entry">
+        <time datetime="2026-07-17">2026.07.17</time>
+        <p>キッチンの棚に、水を2本追加した。特に理由はないけど、少し多めにあると安心する気がする。</p>
+      </article>
+
+      <article class="entry">
+        <time datetime="2026-07-10">2026.07.10</time>
+        <p>懐中電灯の電池を確認したら切れていたので交換。ついでに予備の電池も少しストックしておいた。</p>
+      </article>
+
+      <article class="entry">
+        <time datetime="2026-06-28">2026.06.28</time>
+        <p>家族と「もしはぐれたらどこで会う?」を話してみた。近所の公園、ということに決定。話すだけで安心感が違う。</p>
+      </article>
+
+      <article class="entry">
+        <time datetime="2026-06-15">2026.06.15</time>
+        <p>散歩がてら、近くの避難場所を見にいった。思っていたより近くて、地図アプリにも保存しておいた。</p>
+      </article>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <span class="brand">そなえパレット</span>
+      <p class="tagline">むずかしく考えない防災サイト。淡いみどりとあおで、毎日をちょっと安心に。</p>
+    </div>
+    <nav aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li><a href="blog.html">ブログ</a></li>
+        <li><a href="column.html">コラム</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 そなえパレット</span>
+    <span>このサイトの文章・イラストはAIの学習利用を禁止します。</span>
+  </div>
+</footer>
+
+</body>
+</html>
